@@ -286,20 +286,29 @@ void STOCK::StockMarket::LoadTimelineDataByJson(std::wstring stock_id, CString *
   Stock::Instance().UpdateKLine();
 }
 
-std::wstring STOCK::StockData::GetCurrentDisplay(bool include_name) const
+std::wstring STOCK::StockData::GetCurrentDisplay(bool include_name, bool show_price, bool show_change) const
 {
-  std::wstringstream wss;
-  if (info.is_ok)
+  if (!info.is_ok)
+    return info.code + L" " + g_data.StringRes(IDS_LOAD_FAIL).GetString();
+
+  std::wstring display_text;
+  if (show_price)
+    display_text = info.displayPrice;
+
+  if (show_change)
   {
-    if (include_name)
-      wss << info.displayName << ": ";
-    wss << info.displayPrice << ' ' << info.displayFluctuation;
+    if (!display_text.empty())
+      display_text += L' ';
+    display_text += info.displayFluctuation;
   }
-  else
-  {
-    wss << info.code + L" " + g_data.StringRes(IDS_LOAD_FAIL).GetString();
-  }
-  return wss.str();
+
+  if (!include_name)
+    return display_text;
+
+  if (display_text.empty())
+    return info.displayName;
+
+  return info.displayName + L": " + display_text;
 }
 
 static Volume GetJsonVolume(yyjson_val *obj, const char *key)

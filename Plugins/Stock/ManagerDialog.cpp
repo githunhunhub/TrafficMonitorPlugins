@@ -39,6 +39,8 @@ ON_LBN_DBLCLK(IDC_MGR_LIST, &CManagerDialog::OnLbnDblclkMgrList)
 ON_WM_GETMINMAXINFO()
 ON_BN_CLICKED(IDC_SHOW_STOCK_NAME_CHECK, &CManagerDialog::OnBnClickedShowStockNameCheck)
 ON_BN_CLICKED(IDC_COLOR_WITH_PRICE_CHECK, &CManagerDialog::OnBnClickedColorWithPriceCheck)
+ON_BN_CLICKED(IDC_SHOW_PRICE_CHECK, &CManagerDialog::OnBnClickedShowPriceCheck)
+ON_BN_CLICKED(IDC_SHOW_CHANGE_CHECK, &CManagerDialog::OnBnClickedShowChangeCheck)
 END_MESSAGE_MAP()
 
 // CManagerDialog 消息处理程序
@@ -68,6 +70,8 @@ BOOL CManagerDialog::OnInitDialog()
     CheckDlgButton(IDC_FULL_DAY_CHECK, m_data.m_full_day);
     CheckDlgButton(IDC_SHOW_STOCK_NAME_CHECK, m_data.m_show_stock_name);
     CheckDlgButton(IDC_COLOR_WITH_PRICE_CHECK, m_data.m_color_with_price);
+    CheckDlgButton(IDC_SHOW_PRICE_CHECK, m_data.m_show_price);
+    CheckDlgButton(IDC_SHOW_CHANGE_CHECK, m_data.m_show_change);
 
     CString value;
     value.Format(_T("%d"), static_cast<int>(g_data.m_setting_data.m_kline_width));
@@ -140,6 +144,16 @@ void CManagerDialog::OnBnClickedShowStockNameCheck()
 void CManagerDialog::OnBnClickedColorWithPriceCheck()
 {
     m_data.m_color_with_price = (IsDlgButtonChecked(IDC_COLOR_WITH_PRICE_CHECK) != 0);
+}
+
+void CManagerDialog::OnBnClickedShowPriceCheck()
+{
+    m_data.m_show_price = (IsDlgButtonChecked(IDC_SHOW_PRICE_CHECK) != 0);
+}
+
+void CManagerDialog::OnBnClickedShowChangeCheck()
+{
+    m_data.m_show_change = (IsDlgButtonChecked(IDC_SHOW_CHANGE_CHECK) != 0);
 }
 
 void CManagerDialog::OnBnClickedOk()

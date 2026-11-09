@@ -212,7 +212,7 @@ namespace STOCK
     StockInfo info;
     // RealTimeData realTimeData; // 最新数据
 
-    std::wstring GetCurrentDisplay(bool include_name = true) const;
+    std::wstring GetCurrentDisplay(bool include_name = true, bool show_price = true, bool show_change = true) const;
 
     // 使用智能指针管理历史数据
     std::map<Period, std::shared_ptr<HistoricalDataBase>> historicalData;

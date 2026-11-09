@@ -56,7 +56,10 @@ bool StockItem::IsCustomDraw() const
 int StockItem::GetItemWidthEx(void *hDC) const
 {
     CDC *pDC = CDC::FromHandle((HDC)hDC);
-    int width = pDC->GetTextExtent(g_data.GetStockData(stock_id)->GetCurrentDisplay(g_data.m_setting_data.m_show_stock_name).c_str()).cx;
+    int width = pDC->GetTextExtent(g_data.GetStockData(stock_id)->GetCurrentDisplay(
+        g_data.m_setting_data.m_show_stock_name,
+        g_data.m_setting_data.m_show_price,
+        g_data.m_setting_data.m_show_change).c_str()).cx;
 
     char buff[32];
     sprintf_s(buff, "GetItemWidthEx %d", width);
@@ -92,13 +95,15 @@ void StockItem::DrawItem(void *hDC, int x, int y, int w, int h, bool dark_mode)
         color_green = RGB(46, 139, 87);
     }
 
+    std::wstring value_text = data->GetCurrentDisplay(false, g_data.m_setting_data.m_show_price, g_data.m_setting_data.m_show_change);
     CRect rect_value{rect};
     if (data->info.is_ok && g_data.m_setting_data.m_show_stock_name)
     {
         // 绘制名称
         pDC->SetTextColor(color_default);
         CString stock_name{data->info.displayName.c_str()};
-        stock_name += _T(": ");
+        if (!value_text.empty())
+            stock_name += _T(": ");
         CRect rect_name{rect};
         rect_name.right = rect_name.left + pDC->GetTextExtent(stock_name).cx;
         pDC->DrawText(stock_name, rect_name, DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX);
@@ -122,7 +127,7 @@ void StockItem::DrawItem(void *hDC, int x, int y, int w, int h, bool dark_mode)
     UINT flags = DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX;
     if (g_data.m_right_align)
         flags |= DT_RIGHT;
-    pDC->DrawText(data->GetCurrentDisplay(false).c_str(), rect_value, flags);
+    pDC->DrawText(value_text.c_str(), rect_value, flags);
 }
 
 const wchar_t *StockItem::GetItemValueSampleText() const

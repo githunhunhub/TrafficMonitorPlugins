@@ -13,6 +13,8 @@ struct SettingData
 {
     vector<std::wstring> m_stock_codes; // 代码
     bool m_full_day{};                  // 全天更新
+    bool m_show_price{};                // 显示当前股价
+    bool m_show_change{};               // 显示涨跌幅
     bool m_show_stock_name{};           // 显示股票名称
     bool m_color_with_price{};          // 涨跌颜色标识
     unsigned m_kline_width;             // 走势图宽度

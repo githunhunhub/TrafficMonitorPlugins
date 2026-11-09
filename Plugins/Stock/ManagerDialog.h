@@ -40,4 +40,6 @@ public:
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 	afx_msg void OnBnClickedShowStockNameCheck();
 	afx_msg void OnBnClickedColorWithPriceCheck();
+	afx_msg void OnBnClickedShowPriceCheck();
+	afx_msg void OnBnClickedShowChangeCheck();
 };
